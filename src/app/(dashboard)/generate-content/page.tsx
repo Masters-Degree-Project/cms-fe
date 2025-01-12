@@ -2,9 +2,9 @@
 
 // MUI Imports
 
-// import { useRouter } from 'next/navigation'
-
 import { useState } from 'react'
+
+import { useRouter } from 'next/navigation'
 
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
@@ -22,13 +22,14 @@ import Divider from '@mui/material/Divider'
 import CustomTextField from '@core/components/mui/TextField'
 import KeywordSpan from '@/components/input/KeywordSpan'
 import LangSelect from '@/components/input/LangSelect'
+import { createContents } from '@/services/api'
 
-// import { useMessage } from '@/context/MessageContext'
-// import { useLoading } from '@/context/LoadingContext'
+import { useMessage } from '@/context/MessageContext'
+import { useLoading } from '@/context/LoadingContext'
 
 type Props = {}
 
-type FormType = {
+export type FormType = {
   title: string
   description: string
   keywords: string[]
@@ -45,9 +46,9 @@ const formDefaultValues: FormType = {
 }
 
 function CustomerDetail({}: Props) {
-  // const router = useRouter()
-  // const { showMessage } = useMessage()
-  // const { setLoading } = useLoading()
+  const router = useRouter()
+  const { showMessage } = useMessage()
+  const { setLoading } = useLoading()
   const [keywordList, setKeywordList] = useState<string[]>([])
 
   // Hooks
@@ -62,7 +63,25 @@ function CustomerDetail({}: Props) {
   })
 
   const onSubmit = async (data: FormType) => {
-    console.log('DATA: ', data)
+    setLoading(true)
+
+    const response = await createContents({
+      title: data.title,
+      description: data.description,
+      keywords: keywordList,
+      languages: data.languages
+    })
+
+    if (response) {
+      reset()
+      setKeywordList([])
+      showMessage('Content creation is in a queue, it will be created in a few minutes.', { type: 'success' })
+      router.push('/contents')
+    } else {
+      showMessage('Error while creating content', { type: 'error' })
+    }
+
+    setLoading(false)
   }
 
   const handleKeywordDelete = (label: string) => {
@@ -72,7 +91,6 @@ function CustomerDetail({}: Props) {
   const handleKeywordsKeyDown = (e: any) => {
     if (e.key === 'Enter') {
       e.preventDefault()
-      console.log('E: ', e.target.value)
       setValue('keywordsInput', '')
       setKeywordList(prev => [...prev, e.target.value])
     }
@@ -80,7 +98,7 @@ function CustomerDetail({}: Props) {
 
   return (
     <Card>
-      <CardHeader title='Genereate Content' />
+      <CardHeader title='Generate Content' />
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid xs={12} sm={6} container spacing={6}>
@@ -149,7 +167,7 @@ function CustomerDetail({}: Props) {
               </div>
             </Grid>
             <Grid item xs={12}>
-              <LangSelect control={control} />
+              <LangSelect control={control} errors={errors} />
             </Grid>
             <Grid item xs={12}>
               <Divider />

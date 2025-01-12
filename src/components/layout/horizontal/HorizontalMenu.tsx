@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles'
 import type { VerticalMenuContextProps } from '@menu/components/vertical-menu/Menu'
 
 // Component Imports
-import HorizontalNav, { Menu, MenuItem } from '@menu/horizontal-menu'
+import HorizontalNav, { Menu } from '@menu/horizontal-menu'
 import VerticalNavContent from './VerticalNavContent'
 
 // Hook Imports
@@ -78,12 +78,11 @@ const HorizontalMenu = () => {
           menuSectionStyles: verticalMenuSectionStyles(verticalNavOptions, theme)
         }}
       >
-        <MenuItem href='/generate-content' icon={<i className='tabler-smart-home' />}>
+        {/* KULLANIM DIŞI */}
+        {/* <MenuItem href='/generate-content' icon={<i className='tabler-smart-home' />}>
           Generate Content
         </MenuItem>
-        <MenuItem href='/about' icon={<i className='tabler-info-circle' />}>
-          About
-        </MenuItem>
+        */}
       </Menu>
       {/* <Menu
         rootStyles={menuRootStyles(theme)}

@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: process.env.BASEPATH,
+  output: 'standalone',
+  env: {
+    API_BASE: process.env.API_BASE,
+    WEB_BASE: process.env.WEB_BASE
+  },
   redirects: async () => {
     return [
       {

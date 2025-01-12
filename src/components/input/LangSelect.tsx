@@ -6,32 +6,33 @@ import MenuItem from '@mui/material/MenuItem'
 
 import { Chip } from '@mui/material'
 
-import type { Control } from 'react-hook-form'
+import type { Control, FieldErrors } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
 
 import CustomTextField from '@core/components/mui/TextField'
+import { getLanguages } from '@/services/api'
+import type { FormType } from '@/app/(dashboard)/generate-content/page'
 
-type LanguageApiType = {
+export type LanguageApiType = {
   id: number
   name: string
 }
 
 type Props = {
-  control: Control<any, any>
+  control: Control<FormType, any>
+  errors: FieldErrors<FormType>
 }
 
-function LangSelect({ control }: Props) {
+function LangSelect({ control, errors }: Props) {
   const [languages, setLanguages] = React.useState<LanguageApiType[]>([])
 
   useEffect(() => {
     // Fetch languages from API
     const fetchLangs = async () => {
-      setLanguages([
-        { id: 1, name: 'Turkish' },
-        { id: 2, name: 'English' },
-        { id: 3, name: 'Spanish' },
-        { id: 4, name: 'German' }
-      ])
+      const response = await getLanguages()
+
+      console.log('RESPONSE : ', response)
+      setLanguages(response)
     }
 
     fetchLangs()
@@ -49,8 +50,13 @@ function LangSelect({ control }: Props) {
           fullWidth
           label='Languages'
           id='lang-select'
+          error={Boolean(errors.languages)}
+          helperText={errors.languages?.message}
           SelectProps={{
             multiple: true,
+            onChange: event => {
+              field.onChange(event.target.value)
+            },
             renderValue: (selected: any) => (
               <div className='flex flex-wrap gap-1'>
                 {(selected as unknown as number[]).map(lan => {
