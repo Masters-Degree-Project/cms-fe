@@ -8,3 +8,12 @@ services:
     restart: always
     ports:
       - 3000:3000
+    networks:
+      - common_network
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+networks:
+  common_network:
+    external: true
