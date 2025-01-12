@@ -29,7 +29,7 @@ import { useLoading } from '@/context/LoadingContext'
 
 type Props = {}
 
-export type FormType = {
+type FormType = {
   title: string
   description: string
   keywords: string[]

@@ -2,11 +2,32 @@
 
 import React from 'react'
 
+import type { ChipPropsColorOverrides } from '@mui/material'
 import { Chip, Tooltip } from '@mui/material'
 
-import { ChipStatus } from '@/app/(dashboard)/contents/page'
 import Link from '@/components/Link'
-import type { ContentType } from './page'
+
+const ChipStatus: {
+  [key: string]: ChipPropsColorOverrides
+} = {
+  Completed: 'success',
+  Waiting: 'secondary',
+  Processing: 'info',
+  Failed: 'error'
+}
+
+type ContentType = {
+  id: number
+  title: string
+  description: string
+  keywords: string[]
+  languages: {
+    id: number
+    language: string
+    iso_code: string
+    status: string
+  }[]
+}
 
 type Props = {
   response: ContentType

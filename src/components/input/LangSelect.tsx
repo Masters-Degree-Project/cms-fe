@@ -11,7 +11,14 @@ import { Controller } from 'react-hook-form'
 
 import CustomTextField from '@core/components/mui/TextField'
 import { getLanguages } from '@/services/api'
-import type { FormType } from '@/app/(dashboard)/generate-content/page'
+
+type FormType = {
+  title: string
+  description: string
+  keywords: string[]
+  keywordsInput: string
+  languages: number[]
+}
 
 export type LanguageApiType = {
   id: number

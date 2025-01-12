@@ -26,7 +26,7 @@ import { Button, Chip, Tooltip } from '@mui/material'
 import { getContents } from '@/services/api'
 import { useLoading } from '@/context/LoadingContext'
 
-export const ChipStatus: {
+const ChipStatus: {
   [key: string]: ChipPropsColorOverrides
 } = {
   Completed: 'success',
@@ -48,10 +48,6 @@ type ContentApiType = {
     iso_code: string
     status: 'Completed' | 'Waiting' | 'Processing' | 'Failed'
   }[]
-}
-
-export type FormType = {
-  name: string
 }
 
 function Page({}: Props) {

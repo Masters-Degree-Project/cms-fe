@@ -26,7 +26,7 @@ type GeneratedContent = {
   version: number
 }
 
-export type ContentType = {
+type ContentType = {
   id: number
   title: string
   description: string
