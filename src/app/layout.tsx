@@ -13,9 +13,8 @@ import ContextProviders from '@/context/ContextProvider'
 import Loading from '@/components/loading/Loading'
 
 export const metadata = {
-  title: 'Vuexy - MUI Next.js Admin Dashboard Template',
-  description:
-    'Vuexy - MUI Next.js Admin Dashboard Template - is the most developer friendly & highly customizable Admin Dashboard Template based on MUI v5.'
+  title: 'Cms',
+  description: 'CMS panel for ai based content generation application'
 }
 
 const RootLayout = ({ children }: ChildrenType) => {
