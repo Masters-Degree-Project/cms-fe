@@ -7,7 +7,6 @@ export default function Api() {
     get: async <T>(endpoint: string, options: RequestInit = {}): Promise<T> => {
       const fullUrl = `${baseUrl}${endpoint}`
 
-      console.log('FULL URL : ', fullUrl)
       const response = await fetch(fullUrl, options)
 
       if (!response.ok) {
@@ -63,6 +62,16 @@ export const createContents = async (data: any) => {
 export const getContents = async () => {
   try {
     const response = await api.get<any>(endpoints.getContents)
+
+    return response as any
+  } catch (error) {
+    return error
+  }
+}
+
+export const getContent = async (id: string) => {
+  try {
+    const response = await api.get<any>(`${endpoints.getContent}${id}`)
 
     return response as any
   } catch (error) {

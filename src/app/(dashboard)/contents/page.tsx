@@ -26,7 +26,7 @@ import { Button, Chip, Tooltip } from '@mui/material'
 import { getContents } from '@/services/api'
 import { useLoading } from '@/context/LoadingContext'
 
-const ChipStatus: {
+export const ChipStatus: {
   [key: string]: ChipPropsColorOverrides
 } = {
   Completed: 'success',

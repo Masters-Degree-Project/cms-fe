@@ -6,7 +6,8 @@ import type { Metadata } from 'next'
 
 import { Card, CardContent, Divider } from '@mui/material'
 
-import { getGeneratedContent } from '@/services/api'
+import { getContent, getGeneratedContent } from '@/services/api'
+import LangTabs from './LangTabs'
 
 type Props = {
   params: { contentId: string; langId: string }
@@ -23,6 +24,19 @@ type GeneratedContent = {
   twitter_description: string
   content: string
   version: number
+}
+
+export type ContentType = {
+  id: number
+  title: string
+  description: string
+  keywords: string[]
+  languages: {
+    id: number
+    language: string
+    iso_code: string
+    status: string
+  }[]
 }
 
 export async function generateMetadata({ params: { contentId, langId } }: Props): Promise<Metadata> {
@@ -59,15 +73,27 @@ export async function generateMetadata({ params: { contentId, langId } }: Props)
 async function page({ params: { contentId, langId } }: Props) {
   const response: GeneratedContent = await getGeneratedContent(contentId, langId)
 
+  const contentResponse: ContentType = await getContent(contentId)
+
   return (
     <main>
       <Card>
         <CardContent>
-          <h1>{response.title_tag}</h1>
-          <Divider className='my-5' />
-          <div>
-            <Markdown>{response.content}</Markdown>
+          <div className='py-5'>
+            <LangTabs response={contentResponse} contentId={contentId} />
           </div>
+          <Divider />
+          {response.title_tag ? (
+            <>
+              <h1>{response.title_tag}</h1>
+              <Divider className='my-5' />
+              <div>
+                <Markdown>{response.content}</Markdown>
+              </div>
+            </>
+          ) : (
+            <h1 className='my-5'>Content could not genereted</h1>
+          )}
         </CardContent>
       </Card>
     </main>

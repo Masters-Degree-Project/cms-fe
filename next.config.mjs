@@ -5,6 +5,9 @@ const nextConfig = {
     API_BASE: process.env.API_BASE,
     WEB_BASE: process.env.WEB_BASE
   },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
+  },
   redirects: async () => {
     return [
       {
